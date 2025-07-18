@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do List</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      background-color: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    .todo-item { 
+      display: flex; 
+      align-items: center; 
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .todo-item.completed { 
+      text-decoration: line-through; 
+      color: #888; 
+    }
+    .delete-btn { 
+      margin-left: auto; 
+      color: red; 
+      cursor: pointer;
+      font-size: 18px;
+    }
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do List</h1>
+    <form id="todoForm">
+      <input type="text" id="title" placeholder="New to-do..." required>
+      <button type="submit">Add</button>
+    </form>
+    <div id="todoList"></div>
+  </div>
+  <script src="index.js"></script>
+  <script>
+    // Form submit handler - backend'e POST isteği gönder
+    document.getElementById('todoForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      if (title.trim()) {
+        try {
+          const response = await fetch('http://10.46.177.73:9090/todos', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: title })
+          });
+          
+          if (response.ok) {
+            // Başarılı olursa listeyi backend'den yenile
+            loadTodosFromBackend();
+            document.getElementById('title').value = '';
+          } else {
+            console.error('Todo eklenirken hata oluştu');
+          }
+        } catch (error) {
+          console.error('Todo eklenirken hata:', error);
+        }
+      }
+    };
+  </script>
+</body>
+</html> 
