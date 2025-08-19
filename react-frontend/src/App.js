@@ -6,10 +6,13 @@ function App() {
   const [newTodo, setNewTodo] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Backend URL (Render'da çalışan Spring Boot)
+  const BACKEND_URL = "https://todo-app-backend-latest-c2jh.onrender.com";
+
   // Backend'den todos'ları getir
   const fetchTodos = async () => {
     try {
-      const response = await fetch('http://localhost:9090/todos');
+      const response = await fetch(`${BACKEND_URL}/todos`);
       if (response.ok) {
         const data = await response.json();
         setTodos(data);
@@ -26,7 +29,7 @@ function App() {
     e.preventDefault();
     if (newTodo.trim()) {
       try {
-        const response = await fetch('http://localhost:9090/todos', {
+        const response = await fetch(`${BACKEND_URL}/todos`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -47,7 +50,7 @@ function App() {
   // Todo toggle (tamamlandı/tamamlanmadı)
   const toggleTodo = async (id) => {
     try {
-      const response = await fetch(`http://localhost:9090/todos/${id}/toggle`, {
+      const response = await fetch(`${BACKEND_URL}/todos/${id}/toggle`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +68,7 @@ function App() {
   // Todo sil
   const deleteTodo = async (id) => {
     try {
-      const response = await fetch(`http://localhost:9090/todos/${id}`, {
+      const response = await fetch(`${BACKEND_URL}/todos/${id}`, {
         method: 'DELETE',
       });
       
