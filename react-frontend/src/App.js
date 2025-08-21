@@ -7,7 +7,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   // Backend URL (Render'da çalışan Spring Boot)
-  const BACKEND_URL = "https://todo-app-backend-latest-c2jh.onrender.com/todos";
+  const BACKEND_URL = "https://todo-app-backend-latest-c2jh.onrender.com";
 
   // Backend'den todos'ları getir
   const fetchTodos = async () => {
